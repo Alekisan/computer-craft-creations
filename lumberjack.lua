@@ -70,43 +70,53 @@ function init()
 end
 -- end init
 
+function diggy(x)		
+	
+	if(x == 1) then
+	turtle.dig()
+	turtle.forward()
+	end
+	
+	if(x == 2) then
+	turtle.digUp()
+	turtle.up()
+	heightCount = heightCount + 1
+	end
+	
+	if(x == 3) then
+	turtle.digDown()
+	turtle.down()
+	heightCount = heightCount - 1
+	end	
+
+end
+
 
 function main()
 
 init()
+	
+   while(matchFront() or matchUp() or matchDown()) do
+   local a = 0
+   
+	   while(matchFront() or a < 4) do
+	   diggy(1)
+		   if(matchFront() == false) then
+		   turtle.turnRight()
+		   a = a + 1
+		   end	   
+	   end
+	   
+	   if(matchFront() == false and matchUp()) then
+	   diggy(2)
+	   end
+	   
+	   if(matchFront() == false and matchDown()) then
+	   diggy(3)
+	   end
+   
+   end		
 
-	while(matchFront() or matchUp() or matchDown()) do
-	
-		if(matchFront()) then
-		turtle.dig()
-		turtle.forward()
-		
-		elseif(matchUp()) then
-		turtle.digUp()
-		turtle.up()
-		heightCount = heightCount + 1
-		
-		elseif(matchDown()) then
-		turtle.digDown()
-		turtle.down()
-		heightCount = heightCount - 1
-		end
-		
-	end
-	
-	while(heightCount ~= 0) do
-	
-		if(heightCount > 0) then
-			turtle.down()
-			heightCount = heightCount - 1
-		end
-		
-		if(heightCount < 0) then
-			turtle.up()
-			heightCount = heightCount + 1
-		end
-		
-	end
 	
 end
 
