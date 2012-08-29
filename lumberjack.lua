@@ -1,4 +1,6 @@
-function elDetectoFront()
+heightCount = 0
+-- detect if target block matches desired block
+function matchFront()
 local dFront = false
 
 	if(turtle.detect())
@@ -14,7 +16,7 @@ local dFront = false
 	return dFront
 end
 
-function elDetectoUp()	
+function matchUp()	
 local dUp = false
 
 	if(turtle.detectUp())
@@ -30,7 +32,7 @@ local dUp = false
 	return dUp
 end
 
-function elDetectoDown()
+function matchDown()
 local dDown = false
 	
 	if(turtle.detectDown())
@@ -45,35 +47,67 @@ local dDown = false
 	
 	return dDown
 end
+-- end comparisons
 
+-- initialize
+function init()
 
-
-
-
+    if(turtle.detect()) then
+    turtle.dig()
+    turtle.forward()
+    
+    elseif(turtle.detectUp()) then
+    turtle.digUp()
+    turtle.up()
+    heightCount = heightCount + 1
+    
+    elseif(turtle.detectDown()) then
+    turtle.digDown()
+    turtle.down()
+    heightCount = heightCount - 1
+    
+    end
+end
+-- end init
 
 
 function main()
 
+init()
 
-	while(elDetectoFront() or elDetectoUp() or elDetectoDown()) do
+	while(matchFront() or matchUp() or matchDown()) do
 	
-		if(elDetectoFront()) then
+		if(matchFront()) then
 		turtle.dig()
 		turtle.forward()
 		
-		elseif(elDetectoUp()) then
+		elseif(matchUp()) then
 		turtle.digUp()
 		turtle.up()
+		heightCount = heightCount + 1
 		
-		elseif(elDetectoDown()) then
+		elseif(matchDown()) then
 		turtle.digDown()
 		turtle.down()
+		heightCount = heightCount - 1
+		end
+		
+	end
+	
+	while(heightCount ~= 0) do
+	
+		if(heightCount > 0) then
+			turtle.down()
+			heightCount = heightCount - 1
+		end
+		
+		if(heightCount < 0) then
+			turtle.up()
+			heightCount = heightCount + 1
 		end
 		
 	end
 	
 end
 
-turtle.dig()
-turtle.forward()
 main()
